@@ -898,6 +898,8 @@ Py::Object View3DInventorViewerPy::isSpinning()
 
 Py::Object View3DInventorViewerPy::isAnimating()
 {
+    // Python callers can retain this wrapper or a bound method after Qt destroys
+    // the viewer. Observation must fail safely instead of dereferencing it.
     if (!_viewer) {
         throw Py::RuntimeError("Cannot query animation of deleted viewer");
     }
@@ -923,6 +925,8 @@ Py::Object View3DInventorViewerPy::getClippingWriteRevision()
         throw Py::RuntimeError("Cannot query clipping without a camera");
     }
     Py::Tuple result(2);
+    // Return counters for the current camera, not cached clipping values. The
+    // caller must track camera identity separately across node replacement.
     result[0] = Py::Long(static_cast<unsigned PY_LONG_LONG>(camera->nearDistance.getNonAutomaticClippingWriteRevision()));
     result[1] = Py::Long(static_cast<unsigned PY_LONG_LONG>(camera->farDistance.getNonAutomaticClippingWriteRevision()));
     return result;

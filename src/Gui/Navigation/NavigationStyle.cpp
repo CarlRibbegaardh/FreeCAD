@@ -1682,6 +1682,8 @@ SbBool NavigationStyle::handleEventInForeground(const SoEvent* const e)
  */
 void NavigationStyle::setAnimationEnabled(const SbBool enable)
 {
+    // Count intent even when the value is unchanged; deduplicating would hide
+    // another caller's write while a capture temporarily disables animation.
     if (viewer) {
         ++viewer->animationSettingsRevision;
     }
@@ -1699,6 +1701,7 @@ void NavigationStyle::setAnimationEnabled(const SbBool enable)
  */
 void NavigationStyle::setSpinningAnimationEnabled(const SbBool enable)
 {
+    // Spinning preferences share the viewer's setting ownership revision.
     if (viewer) {
         ++viewer->animationSettingsRevision;
     }

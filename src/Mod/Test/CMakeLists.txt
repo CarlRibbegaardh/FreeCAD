@@ -35,6 +35,7 @@ SET(Test_SRCS
     TestRubberbandSelection.py
     TestCoinNodeSnapshots.py
     TestView3DFramebufferCapture.py
+    TestViewerCoordination.py
     TestSelectionVisual.py
     TestCornerAxisCrossVisual.py
     TestViewProviderLink.py
@@ -57,6 +58,16 @@ if(BUILD_GUI)
 endif(BUILD_GUI)
 
 set(Test_COPY_OUTPUTS)
+if(FREECAD_USE_EXTERNAL_COIN_PIVY)
+    set(TEST_EXPECT_CLIPPING_WRITE_REVISION False)
+else()
+    set(TEST_EXPECT_CLIPPING_WRITE_REVISION True)
+endif()
+configure_file(
+    TestViewerCoordinationBuild.py.in
+    "${CMAKE_BINARY_DIR}/Mod/Test/TestViewerCoordinationBuild.py"
+    @ONLY
+)
 foreach(test_src ${Test_SRCS})
     list(APPEND Test_COPY_OUTPUTS "${CMAKE_BINARY_DIR}/Mod/Test/${test_src}")
 endforeach()
@@ -142,6 +153,7 @@ endif()
 INSTALL(
     FILES
         ${Test_SRCS}
+        "${CMAKE_BINARY_DIR}/Mod/Test/TestViewerCoordinationBuild.py"
     DESTINATION
         Mod/Test
 )

@@ -221,6 +221,9 @@ public:
     bool isSpinningAnimationEnabled() const;
     bool isAnimating() const;
     bool isSpinning() const;
+    // Observe setting writes, not just Boolean changes: same-value and transient
+    // writes can invalidate a caller's ownership of temporary capture settings.
+    // This belongs to the viewer so replacing its navigation style cannot reset it.
     std::uint64_t getAnimationSettingsRevision() const noexcept
     {
         return animationSettingsRevision;
