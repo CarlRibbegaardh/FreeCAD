@@ -85,6 +85,7 @@ public:
     Py::Object isSpinning();
     Py::Object isAnimating();
     Py::Object getAnimationSettingsRevision();
+    Py::Object getClippingWriteRevision();
 
     Py::Object getNavigationStyle(const Py::Tuple&);
 

@@ -203,6 +203,13 @@ void View3DInventorViewerPy::init_type()
         &View3DInventorViewerPy::getAnimationSettingsRevision,
         "getAnimationSettingsRevision() -> int: read the per-view animation setting write revision."
     );
+#ifdef COIN_HAVE_CLIPPING_WRITE_REVISION
+    add_noargs_method(
+        "getClippingWriteRevision",
+        &View3DInventorViewerPy::getClippingWriteRevision,
+        "getClippingWriteRevision() -> (int, int): near/far writes excluding exact automatic clipping assignments."
+    );
+#endif
     add_varargs_method(
         "getNavigationStyle",
         &View3DInventorViewerPy::getNavigationStyle,
@@ -903,4 +910,23 @@ Py::Object View3DInventorViewerPy::getAnimationSettingsRevision()
         throw Py::RuntimeError("Cannot query animation settings of deleted viewer");
     }
     return Py::Long(static_cast<unsigned PY_LONG_LONG>(_viewer->getAnimationSettingsRevision()));
+}
+
+Py::Object View3DInventorViewerPy::getClippingWriteRevision()
+{
+#ifdef COIN_HAVE_CLIPPING_WRITE_REVISION
+    if (!_viewer) {
+        throw Py::RuntimeError("Cannot query clipping of deleted viewer");
+    }
+    auto * camera = _viewer->getSoRenderManager()->getCamera();
+    if (!camera) {
+        throw Py::RuntimeError("Cannot query clipping without a camera");
+    }
+    Py::Tuple result(2);
+    result[0] = Py::Long(static_cast<unsigned PY_LONG_LONG>(camera->nearDistance.getNonAutomaticClippingWriteRevision()));
+    result[1] = Py::Long(static_cast<unsigned PY_LONG_LONG>(camera->farDistance.getNonAutomaticClippingWriteRevision()));
+    return result;
+#else
+    throw Py::RuntimeError("Clipping write observation is unavailable in this Coin build");
+#endif
 }
