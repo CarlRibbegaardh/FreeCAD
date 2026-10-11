@@ -2367,6 +2367,7 @@ void View3DInventorViewer::setNavigationType(Base::Type type)
         delete this->navigation;
     }
     this->navigation = ns;
+    ++animationSettingsRevision;
     this->navigation->setViewer(this);
 }
 

@@ -24,6 +24,7 @@
 #pragma once
 
 #include <list>
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <set>
@@ -220,6 +221,10 @@ public:
     bool isSpinningAnimationEnabled() const;
     bool isAnimating() const;
     bool isSpinning() const;
+    std::uint64_t getAnimationSettingsRevision() const noexcept
+    {
+        return animationSettingsRevision;
+    }
     std::shared_ptr<NavigationAnimation> startAnimation(
         const SbRotation& orientation,
         const SbVec3f& rotationCenter,
@@ -746,6 +751,8 @@ private:
     ViewerEventFilter* viewerEventFilter {nullptr};
 
     PyObject* _viewerPy;
+    // Count setter calls, including same-value writes, and style replacement.
+    std::uint64_t animationSettingsRevision {0};
 
     static unsigned char XPM_pixel_data[YPM_WIDTH * YPM_HEIGHT * YPM_BYTES_PER_PIXEL + 1];
     static unsigned char YPM_pixel_data[YPM_WIDTH * YPM_HEIGHT * YPM_BYTES_PER_PIXEL + 1];

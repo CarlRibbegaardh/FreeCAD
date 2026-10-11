@@ -198,6 +198,11 @@ void View3DInventorViewerPy::init_type()
         "isAnimating() -> bool: check whether a navigation animation is running without changing it."
     );
 
+    add_noargs_method(
+        "getAnimationSettingsRevision",
+        &View3DInventorViewerPy::getAnimationSettingsRevision,
+        "getAnimationSettingsRevision() -> int: read the per-view animation setting write revision."
+    );
     add_varargs_method(
         "getNavigationStyle",
         &View3DInventorViewerPy::getNavigationStyle,
@@ -890,4 +895,12 @@ Py::Object View3DInventorViewerPy::isAnimating()
         throw Py::RuntimeError("Cannot query animation of deleted viewer");
     }
     return Py::Boolean(_viewer->isAnimating());
+}
+
+Py::Object View3DInventorViewerPy::getAnimationSettingsRevision()
+{
+    if (!_viewer) {
+        throw Py::RuntimeError("Cannot query animation settings of deleted viewer");
+    }
+    return Py::Long(static_cast<unsigned PY_LONG_LONG>(_viewer->getAnimationSettingsRevision()));
 }

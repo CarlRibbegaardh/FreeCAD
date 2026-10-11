@@ -1682,6 +1682,9 @@ SbBool NavigationStyle::handleEventInForeground(const SoEvent* const e)
  */
 void NavigationStyle::setAnimationEnabled(const SbBool enable)
 {
+    if (viewer) {
+        ++viewer->animationSettingsRevision;
+    }
     animationEnabled = enable;
     if (!enable && isAnimating()) {
         animator->stop();
@@ -1696,6 +1699,9 @@ void NavigationStyle::setAnimationEnabled(const SbBool enable)
  */
 void NavigationStyle::setSpinningAnimationEnabled(const SbBool enable)
 {
+    if (viewer) {
+        ++viewer->animationSettingsRevision;
+    }
     spinningAnimationEnabled = enable;
     if (!enable && isSpinning()) {
         animator->stop();
