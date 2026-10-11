@@ -192,6 +192,11 @@ void View3DInventorViewerPy::init_type()
         &View3DInventorViewerPy::isSpinning,
         "isSpinning() -> bool: check whether a spinning animation is currently active."
     );
+    add_noargs_method(
+        "isAnimating",
+        &View3DInventorViewerPy::isAnimating,
+        "isAnimating() -> bool: check whether a navigation animation is running without changing it."
+    );
 
     add_varargs_method(
         "getNavigationStyle",
@@ -846,4 +851,9 @@ Py::Object View3DInventorViewerPy::getNavigationStyle(const Py::Tuple& args)
 Py::Object View3DInventorViewerPy::isSpinning()
 {
     return Py::Boolean(_viewer->isSpinning());
+}
+
+Py::Object View3DInventorViewerPy::isAnimating()
+{
+    return Py::Boolean(_viewer->isAnimating());
 }

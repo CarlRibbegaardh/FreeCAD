@@ -83,6 +83,7 @@ public:
     Py::Object isEnabledNaviCube(const Py::Tuple& args);
     Py::Object setNaviCubeCorner(const Py::Tuple& args);
     Py::Object isSpinning();
+    Py::Object isAnimating();
 
     Py::Object getNavigationStyle(const Py::Tuple&);
 
