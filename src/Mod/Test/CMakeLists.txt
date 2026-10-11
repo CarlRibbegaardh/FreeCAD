@@ -35,7 +35,7 @@ SET(Test_SRCS
     TestRubberbandSelection.py
     TestCoinNodeSnapshots.py
     TestView3DFramebufferCapture.py
-    TestViewerCoordination.py
+    TestGuiViewerCoordination.py
     TestSelectionVisual.py
     TestCornerAxisCrossVisual.py
     TestViewProviderLink.py
